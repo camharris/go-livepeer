@@ -538,6 +538,10 @@ func SubmitSegment(sess *BroadcastSession, seg *stream.HLSSegment, nonce uint64)
 			pixelCount,
 			priceInfo.FloatString(3),
 		)
+
+		if monitor.Enabled {
+			monitor.MilPixelsProcessed(float64(pixelCount) / 1000000.0)
+		}
 	}
 
 	// transcode succeeded; continue processing response
