@@ -528,6 +528,16 @@ func SubmitSegment(sess *BroadcastSession, seg *stream.HLSSegment, nonce uint64)
 		}
 
 		balUpdate.Debit.Mul(new(big.Rat).SetInt64(pixelCount), priceInfo)
+
+		glog.V(common.DEBUG).Infof(
+			"Debit stream balance manifestID=%s sessionID=%s seqNo=%d orch=%s pixels=%v price=%v",
+			params.ManifestID,
+			sess.OrchestratorInfo.AuthToken.SessionId,
+			seg.SeqNo,
+			ti.Transcoder,
+			pixelCount,
+			priceInfo.FloatString(3),
+		)
 	}
 
 	// transcode succeeded; continue processing response
