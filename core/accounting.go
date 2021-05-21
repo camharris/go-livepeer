@@ -6,6 +6,8 @@ import (
 	"time"
 
 	ethcommon "github.com/ethereum/go-ethereum/common"
+	"github.com/golang/glog"
+	"github.com/livepeer/go-livepeer/common"
 )
 
 // Balance holds the credit balance for a broadcast session
@@ -41,6 +43,9 @@ func (b *Balance) StageUpdate(minCredit, ev *big.Rat) (int, *big.Rat, *big.Rat) 
 	}
 
 	creditGap := new(big.Rat).Sub(minCredit, existingCredit)
+
+	glog.V(common.DEBUG).Infof("Staging balance update existingCredit=%v minCredit=%v creditGap=%v", existingCredit.FloatString(3), minCredit.FloatString(3), creditGap.FloatString(3))
+
 	sizeRat := creditGap.Quo(creditGap, ev)
 	res := sizeRat.Num()
 	if !sizeRat.IsInt() {
